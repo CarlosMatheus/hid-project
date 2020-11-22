@@ -3,20 +3,11 @@ import './App.css';
 import React, { useState } from 'react';
 
 import Region from './Region';
-
-const getDistance = (topLeftLat, topLeftLon, bottomRightLat, bottomRightLon) => {
-  var R = 6371000; // Radius of the Earth in miles
-  var rlat1 = topLeftLat * (Math.PI/180); // Convert degrees to radians
-  var rlat2 = bottomRightLat * (Math.PI/180); // Convert degrees to radians
-  var difflat = rlat2-rlat1; // Radian difference (latitudes)
-  var difflon = (bottomRightLon-topLeftLon) * (Math.PI/180); // Radian difference (longitudes)
-
-  return 2 * R * Math.asin(Math.sqrt(Math.sin(difflat/2)*Math.sin(difflat/2)+Math.cos(rlat1)*Math.cos(rlat2)*Math.sin(difflon/2)*Math.sin(difflon/2)));
-}
+import { getLatLonValues, getDistance } from './Api';
 
 const getMockMatrix = (height, width) => {
   var perlin = require('perlin-noise');
- 
+
   const matrix = perlin.generatePerlinNoise(height, width);
   const intensityMatrix = Array(height).fill(Array(width).fill(0))
 
@@ -29,13 +20,59 @@ const getMockMatrix = (height, width) => {
   return intensityMatrix;
 }
 
+const getMockMatrix2 = (
+  topLeftLat,
+  topLeftLon,
+  bottomRightLat,
+  bottomRightLon,
+  bottomLeftLat,
+  bottomLeftLon,
+  topRightLat,
+  topRightLon,
+  baseLength
+) => {
+  const { latMatrix, lonMatrix } = getLatLonValues(
+    topLeftLat,
+    topLeftLon,
+    bottomRightLat,
+    bottomRightLon,
+    bottomLeftLat,
+    bottomLeftLon,
+    topRightLat,
+    topRightLon,
+    baseLength
+  )
+
+  const sensorLat = -23.588826342902333, sensorLon = -46.682215230240686
+  const sensorValue = 100
+  function getExpectedValue (pointLat, pointLon) {
+    const d = getDistance(sensorLat, sensorLon, pointLat, pointLon)
+    const value = sensorValue * Math.exp(-d/100) / 120
+    return value
+  }
+
+  let intensityMatrix = []
+  for(let i=0;i<latMatrix.length;i++){
+    let intensityArray = []
+    for(let j=0;j<lonMatrix.length;j++){
+      const noiseValue = getExpectedValue(latMatrix[i][j], lonMatrix[i][j])
+      intensityArray.push(noiseValue)
+    }
+    intensityMatrix.push(intensityArray)
+  }
+  console.log(intensityMatrix)
+
+  return intensityMatrix
+}
+
 function Area(props) { // assumption: the area is an rectangle
 
   const topLeftLat = props.topLeftLat;
   const topLeftLon = props.topLeftLon;
   const bottomRightLat = props.bottomRightLat;
   const bottomRightLon = props.bottomRightLon;
-
+  const bottomLeftLat = props.bottomLeftLat;
+  const bottomLeftLon = props.bottomLeftLon;
   const topRightLat = props.topRightLat;
   const topRightLon = props.topRightLon;
 
@@ -54,24 +91,40 @@ function Area(props) { // assumption: the area is an rectangle
 
   let intensityMatrix = props.intensityMatrix ?? null;
   if (!props.intensityMatrix) {
-      intensityMatrix = getMockMatrix(lenOfHeight + (2 * baseLength), lenOfWidth + (2 * baseLength));
+    intensityMatrix = getMockMatrix(lenOfHeight + (2 * baseLength), lenOfWidth + (2 * baseLength));
   }
 
+<<<<<<< HEAD
+=======
+  let intensityMatrix2 = getMockMatrix2 (
+    topLeftLat,
+    topLeftLon,
+    bottomRightLat,
+    bottomRightLon,
+    bottomLeftLat,
+    bottomLeftLon,
+    topRightLat,
+    topRightLon,
+    baseLength
+  ) 
+  intensityMatrix = intensityMatrix2
+
+>>>>>>> 700885949f7b23be34bf5387914e01b8faf2bc0f
   return (
-    <div style={{display: "flex"}}>
+    <div style={{ display: "flex" }}>
       <div>
         {
-          [<Region intensityMatrix={intensityMatrix} height={baseLength} width={baseLength} startRow={0} startColumn={0}/>, <Region intensityMatrix={intensityMatrix} height={baseLength} width={lenOfWidth} startRow={0} startColumn={0} startRow={0} startColumn={baseLength}/>,<Region intensityMatrix={intensityMatrix} height={baseLength} width={baseLength} startRow={0} startColumn={baseLength + lenOfWidth}/>]
+          [<Region intensityMatrix={intensityMatrix} height={baseLength} width={baseLength} startRow={0} startColumn={0} />, <Region intensityMatrix={intensityMatrix} height={baseLength} width={lenOfWidth} startRow={0} startColumn={0} startRow={0} startColumn={baseLength} />, <Region intensityMatrix={intensityMatrix} height={baseLength} width={baseLength} startRow={0} startColumn={baseLength + lenOfWidth} />]
         }
       </div>
       <div>
         {
-          [<Region intensityMatrix={intensityMatrix} height={lenOfHeight} width={baseLength} startRow={baseLength} startColumn={0}/>, <Region intensityMatrix={intensityMatrix} main={true} height={lenOfHeight} width={lenOfWidth} startRow={baseLength} startColumn={baseLength}/>,<Region intensityMatrix={intensityMatrix} height={lenOfHeight} width={baseLength} startRow={baseLength} startColumn={baseLength + lenOfWidth}/>]
+          [<Region intensityMatrix={intensityMatrix} height={lenOfHeight} width={baseLength} startRow={baseLength} startColumn={0} />, <Region intensityMatrix={intensityMatrix} main={true} height={lenOfHeight} width={lenOfWidth} startRow={baseLength} startColumn={baseLength} />, <Region intensityMatrix={intensityMatrix} height={lenOfHeight} width={baseLength} startRow={baseLength} startColumn={baseLength + lenOfWidth} />]
         }
       </div>
       <div>
         {
-          [<Region intensityMatrix={intensityMatrix} height={baseLength} width={baseLength} startRow={baseLength + lenOfHeight} startColumn={0}/>, <Region intensityMatrix={intensityMatrix} height={baseLength} width={lenOfWidth} startRow={baseLength + lenOfHeight} startColumn={baseLength}/>,<Region intensityMatrix={intensityMatrix} height={baseLength} width={baseLength} startRow={baseLength + lenOfHeight} startColumn={baseLength + lenOfWidth}/>]
+          [<Region intensityMatrix={intensityMatrix} height={baseLength} width={baseLength} startRow={baseLength + lenOfHeight} startColumn={0} />, <Region intensityMatrix={intensityMatrix} height={baseLength} width={lenOfWidth} startRow={baseLength + lenOfHeight} startColumn={baseLength} />, <Region intensityMatrix={intensityMatrix} height={baseLength} width={baseLength} startRow={baseLength + lenOfHeight} startColumn={baseLength + lenOfWidth} />]
         }
       </div>
     </div>

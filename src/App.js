@@ -69,6 +69,8 @@ function App() {
       topRightLon={-46.68196461184181}
       bottomRightLat={-23.589956330973465}
       bottomRightLon={-46.68294486601919}
+      bottomLeftLat={-23.58908832749717}
+      bottomLeftLon={-46.68320100836799}
       intensityMatrix={intensityMatrix}
       sensors={sensors}
     />
