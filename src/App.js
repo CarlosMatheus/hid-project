@@ -15,6 +15,8 @@ function App() {
       topRightLon={-46.68196461184181}
       bottomRightLat={-23.589956330973465}
       bottomRightLon={-46.68294486601919}
+      bottomLeftLat={0}
+      bottomLeftLon={0}
       intensityMatrix={intensityMatrix}
     />
   );
