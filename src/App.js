@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { Button, Card, Container, Jumbotron, Nav, Navbar, Tab, Tabs } from 'react-bootstrap';
 
 import Area from './Area';
+import Square from './Square';
 
 function App() {
   const [sensors, setSensors] = useState(false);
@@ -13,15 +14,6 @@ function App() {
 
   return (
     <>
-    {/* <Navbar bg="light" variant="light">
-  <Navbar.Brand href="#home">Navbar with text</Navbar.Brand>
-  <Navbar.Toggle />
-  <Navbar.Collapse className="justify-content-end">
-    <Navbar.Text>
-      Signed in as: <a href="#login">Mark Otto</a>
-    </Navbar.Text>
-  </Navbar.Collapse>
-</Navbar> */}
     <Container style={{marginTop: 24, marginBottom: 24}}>
   <h1>HID Project</h1>
   <p>
@@ -33,11 +25,11 @@ function App() {
     <br />
     The intensity of the sound on each.
     </p>
-  <p>
-    70
-    </p>
-  <p>
-    120
+    <p style={{display: 'flex', alignItems: 'center'}}>
+    <Square /> {'70db'}
+  </p>
+  <p style={{display: 'flex', alignItems: 'center'}}>
+    <Square /> {'120db'}
   </p>
   <p>
   </p>
@@ -52,15 +44,9 @@ function App() {
       <Nav.Item>
         <Nav.Link href="#link" onClick={()=>setSensors(true)}>Sensors</Nav.Link>
       </Nav.Item>
-      {/* <Nav.Item>
-        <Nav.Link href="#disabled" disabled>
-          Disabled
-        </Nav.Link>
-      </Nav.Item> */}
     </Nav>
   </Card.Header>
   <Card.Body>
-    {/* <Card.Title>Special title treatment</Card.Title> */}
     <Card.Text>
     <Area
       topLeftLat={-23.588826342902333}
@@ -75,10 +61,8 @@ function App() {
       sensors={sensors}
     />
     </Card.Text>
-    {/* <Button variant="primary">Go somewhere</Button> */}
   </Card.Body>
 </Card>
-{/* </Jumbotron> */}
     </Container>
     </>
   );

@@ -2,8 +2,8 @@ import './App.css';
 
 import React, { useState } from 'react';
 
+import { getDistance, getLatLonValues } from './Api';
 import Region from './Region';
-import { getLatLonValues, getDistance } from './Api';
 
 const getMockMatrix = (height, width) => {
   var perlin = require('perlin-noise');
@@ -94,8 +94,7 @@ function Area(props) { // assumption: the area is an rectangle
     intensityMatrix = getMockMatrix(lenOfHeight + (2 * baseLength), lenOfWidth + (2 * baseLength));
   }
 
-<<<<<<< HEAD
-=======
+
   let intensityMatrix2 = getMockMatrix2 (
     topLeftLat,
     topLeftLon,
@@ -109,7 +108,6 @@ function Area(props) { // assumption: the area is an rectangle
   ) 
   intensityMatrix = intensityMatrix2
 
->>>>>>> 700885949f7b23be34bf5387914e01b8faf2bc0f
   return (
     <div style={{ display: "flex" }}>
       <div>
