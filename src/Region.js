@@ -9,35 +9,38 @@ function Region(props) {
   let width = props.width;
   const isMain = props.main || false;
 
-  var matrix = Array(height).fill(Array(width).fill(<Square isMain={isMain}/>))
+  var matrix = Array(height).fill(Array(width).fill(<Square isMain={isMain} />))
 
   const backgroundColor = isMain ? '#CDCDCD' : 'white';
-//   const borderColor = isMain ? 'black' : 'white';
-//   const borderSize = isMain ? 1 : 1;
+  //   const borderColor = isMain ? 'black' : 'white';
+  //   const borderSize = isMain ? 1 : 1;
 
-    const startRow = props.startRow;
-    const startColumn = props.startColumn;
+  const startRow = props.startRow;
+  const startColumn = props.startColumn;
 
-    const intensityMatrix=props.intensityMatrix;
+  const intensityMatrix = props.intensityMatrix;
+  const latMatrix = props.latMatrix;
+  const lonMatrix = props.lonMatrix;
 
   return (
     //   <div />
     <div style={{
-        display: "flex",
-        backgroundColor: backgroundColor,
-        // border: borderSize,
-        // borderStyle: "solid",
-        // borderColor: borderColor,
-        }}>
+      display: "flex",
+      backgroundColor: backgroundColor,
+      // border: borderSize,
+      // borderStyle: "solid",
+      // borderColor: borderColor,
+    }}>
       {
-        matrix.map( (row, rowIdx) => {
-        return <div style={{display: ""}}>
+        matrix.map((row, rowIdx) => {
+          return <div style={{ display: "" }}>
             {
-                row.map( (square, colIdx) => {
-                    return <Square isMain={isMain} intensityPercentage={intensityMatrix[rowIdx + startRow][colIdx + startColumn]}/>
-                })
+              row.map((square, colIdx) => {
+                return <Square isMain={isMain} intensityPercentage={intensityMatrix[rowIdx + startRow][colIdx + startColumn]} lat={latMatrix[rowIdx + startRow][colIdx + startColumn]} lon={lonMatrix[rowIdx + startRow][colIdx + startColumn]} />
+                // return <Square isMain={isMain} intensityPercentage={intensityMatrix[rowIdx][colIdx]}/>
+              })
             }
-        </div>
+          </div>
         })
       }
     </div>
