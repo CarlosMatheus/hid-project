@@ -3,16 +3,7 @@ import './App.css';
 import React, { useState } from 'react';
 
 import Region from './Region';
-
-const getDistance = (pontALat, pointALon, pointBLat, pointBLon) => {
-  var R = 6371000; // Radius of the Earth in miles
-  var rlat1 = pontALat * (Math.PI / 180); // Convert degrees to radians
-  var rlat2 = pointBLat * (Math.PI / 180); // Convert degrees to radians
-  var difflat = rlat2 - rlat1; // Radian difference (latitudes)
-  var difflon = (pointBLon - pointALon) * (Math.PI / 180); // Radian difference (longitudes)
-
-  return 2 * R * Math.asin(Math.sqrt(Math.sin(difflat / 2) * Math.sin(difflat / 2) + Math.cos(rlat1) * Math.cos(rlat2) * Math.sin(difflon / 2) * Math.sin(difflon / 2)));
-}
+import { getLatLonValues, getDistance } from './Api';
 
 const getMockMatrix = (height, width) => {
   var perlin = require('perlin-noise');
@@ -32,6 +23,41 @@ const getMockMatrix = (height, width) => {
   // console.log(intensityMatrix);
 
   return intensityMatrix;
+}
+
+const getMockMatrix2 = (
+  topLeftLat,
+  topLeftLon,
+  bottomRightLat,
+  bottomRightLon,
+  bottomLeftLat,
+  bottomLeftLon,
+  topRightLat,
+  topRightLon,
+  baseLength
+) => {
+  const { latMatrix, lonMatrix } = getLatLonValues(
+    topLeftLat,
+    topLeftLon,
+    bottomRightLat,
+    bottomRightLon,
+    bottomLeftLat,
+    bottomLeftLon,
+    topRightLat,
+    topRightLon,
+    baseLength
+  )
+
+  let intensityMatrix = []
+  latMatrix.forEach((row) => {
+    let intensityArray = []
+    row.forEach((element)=>{
+      intensityArray.push(0.3)
+    })
+    intensityMatrix.push(intensityArray)
+  })
+
+  return intensityMatrix
 }
 
 function Area(props) { // assumption: the area is an rectangle
@@ -62,6 +88,19 @@ function Area(props) { // assumption: the area is an rectangle
   if (!props.intensityMatrix) {
     intensityMatrix = getMockMatrix(lenOfHeight + (2 * baseLength), lenOfWidth + (2 * baseLength));
   }
+
+  let intensityMatrix2 = getMockMatrix2 (
+    topLeftLat,
+    topLeftLon,
+    bottomRightLat,
+    bottomRightLon,
+    bottomLeftLat,
+    bottomLeftLon,
+    topRightLat,
+    topRightLon,
+    baseLength
+  ) 
+  // intensityMatrix = intensityMatrix2
 
   return (
     <div style={{ display: "flex" }}>
