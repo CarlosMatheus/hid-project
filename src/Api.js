@@ -40,7 +40,7 @@ const fetchEstimatedValues = async (latMatrix, lonMatrix) => {
     const data = {
         latMatrix, lonMatrix
     }
-    return await fetch("localhost:5000/estimatedValues",
+    return await fetch("localhost:5000/estimatedNoiseValues",
         {
             body: JSON.stringify(data)
         })
@@ -74,3 +74,7 @@ const fetchSensorsPosition = async () => {
             return err
         })
 }
+
+/*
+
+*/
