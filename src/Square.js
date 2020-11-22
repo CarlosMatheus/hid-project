@@ -7,7 +7,7 @@ function Square(props) {
 
 
   return (
-    <div style={{height: 3, width: 3, backgroundColor: color, marginRight: 1, marginBottom: 1}}>
+    <div style={{height: 5, width: 5, backgroundColor: color, marginRight: 1, marginBottom: 1}}>
     </div>
   );
 }

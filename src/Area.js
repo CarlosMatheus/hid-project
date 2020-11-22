@@ -14,8 +14,7 @@ const getDistance = (topLeftLat, topLeftLon, bottomRightLat, bottomRightLon) => 
   return 2 * R * Math.asin(Math.sqrt(Math.sin(difflat/2)*Math.sin(difflat/2)+Math.cos(rlat1)*Math.cos(rlat2)*Math.sin(difflon/2)*Math.sin(difflon/2)));
 }
 
-function Area(props) {
-  // assumption: the area is an rectangle
+function Area(props) { // assumption: the area is an rectangle
 
   const topLeftLat = props.topLeftLat;
   const topLeftLon = props.topLeftLon;
@@ -36,25 +35,28 @@ function Area(props) {
   const lenOfHeight = parseInt(cathetusRight);
   const lenOfWidth = parseInt(cathetusTop);
 
-  console.log(lenOfHeight);
-  console.log(lenOfWidth);
-  console.log(hypotenuse);
+  const intensityMatrix = props.intensityMatrix ?? null;
+
+  // console.log(lenOfHeight);
+  // console.log(lenOfWidth);
+
+  const baseLength = 30;
 
   return (
     <div style={{display: "flex"}}>
       <div>
         {
-          [<Region/>, <Region/>,<Region/>]
+          [<Region height={baseLength} width={baseLength} startRow={0} startColumn={0}/>, <Region height={baseLength} width={lenOfWidth} startRow={0} startColumn={0} startRow={0} startColumn={baseLength}/>,<Region height={baseLength} width={baseLength} startRow={0} startColumn={baseLength + lenOfWidth}/>]
         }
       </div>
       <div>
         {
-          [<Region/>, <Region main={true}/>,<Region/>]
+          [<Region height={lenOfHeight} width={baseLength} startRow={baseLength} startColumn={0}/>, <Region main={true} height={lenOfHeight} width={lenOfWidth} startRow={baseLength} startColumn={baseLength}/>,<Region height={lenOfHeight} width={baseLength} startRow={baseLength} startColumn={baseLength + lenOfWidth}/>]
         }
       </div>
       <div>
         {
-          [<Region/>, <Region/>,<Region/>]
+          [<Region height={baseLength} width={baseLength} startRow={baseLength + lenOfHeight} startColumn={0}/>, <Region height={baseLength} width={lenOfWidth} startRow={baseLength + lenOfHeight} startColumn={baseLength}/>,<Region height={baseLength} width={baseLength} startRow={baseLength + lenOfHeight} startColumn={baseLength + lenOfWidth}/>]
         }
       </div>
     </div>

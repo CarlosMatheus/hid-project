@@ -5,8 +5,8 @@ import React, { useState } from 'react';
 import Square from './Square';
 
 function Region(props) {
-  let height = 100;
-  let width = 100;
+  let height = props.height;
+  let width = props.width;
   const isMain = props.main || false;
 
   var matrix = Array(height).fill(Array(width).fill(<Square isMain={isMain}/>))
@@ -14,6 +14,9 @@ function Region(props) {
   const backgroundColor = isMain ? '#CDCDCD' : 'white';
 //   const borderColor = isMain ? 'black' : 'white';
 //   const borderSize = isMain ? 1 : 1;
+
+    const startRow = props.startRow;
+    const startColumn = props.startColumn;
 
   return (
     <div style={{
