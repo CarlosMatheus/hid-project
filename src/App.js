@@ -10,7 +10,11 @@ import Square from './Square';
 
 function App() {
   const [sensors, setSensors] = useState(false);
+  const [selectedSquare, setSelectedSquare] = useState(null);
   const intensityMatrix = null;
+
+  const minDb = 70;
+  const maxDb = 120;
 
   return (
     <>
@@ -26,10 +30,10 @@ function App() {
     The intensity of the sound on each.
     </p>
     <p style={{display: 'flex', alignItems: 'center'}}>
-    <Square /> {'70db'}
+    <Square intensityPercentage={0}/> <span style={{marginLeft: 2}}>{`${minDb}db`}</span>
   </p>
   <p style={{display: 'flex', alignItems: 'center'}}>
-    <Square /> {'120db'}
+    <Square intensityPercentage={1}/> <span style={{marginLeft: 2}}>{`${maxDb}db`}</span>
   </p>
   <p>
   </p>
@@ -48,6 +52,19 @@ function App() {
   </Card.Header>
   <Card.Body>
     <Card.Text>
+      {
+        selectedSquare ? (
+          <div>
+            <span style={{marginRight: 4}}>{`Latitude: ${selectedSquare.lat}`}</span>
+            <span style={{marginRight: 4}}>{`Longitude: ${selectedSquare.lon}`}</span>
+            <span style={{marginRight: 4}}>{`Intensity: ${(selectedSquare.intensityPercentage * (maxDb - minDb) + minDb)}db`}</span>
+          </div>
+        ) : (
+          <div>
+            <span>{'Navigate on the graph'}</span>
+          </div>
+        )
+      }
     <Area
       topLeftLat={-23.588826342902333}
       topLeftLon={-46.682215230240686}
@@ -59,6 +76,7 @@ function App() {
       bottomLeftLon={-46.68320100836799}
       intensityMatrix={intensityMatrix}
       sensors={sensors}
+      setSelectedSquare={setSelectedSquare}
     />
     </Card.Text>
   </Card.Body>

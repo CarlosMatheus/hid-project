@@ -36,7 +36,7 @@ function Region(props) {
           return <div style={{ display: "" }}>
             {
               row.map((square, colIdx) => {
-                return <Square isMain={isMain} intensityPercentage={intensityMatrix[rowIdx + startRow][colIdx + startColumn]} lat={latMatrix[rowIdx + startRow][colIdx + startColumn]} lon={lonMatrix[rowIdx + startRow][colIdx + startColumn]} />
+                return <Square setSelectedSquare={props.setSelectedSquare} isMain={isMain} intensityPercentage={intensityMatrix[rowIdx + startRow][colIdx + startColumn]} lat={latMatrix[rowIdx + startRow][colIdx + startColumn]} lon={lonMatrix[rowIdx + startRow][colIdx + startColumn]} />
                 // return <Square isMain={isMain} intensityPercentage={intensityMatrix[rowIdx][colIdx]}/>
               })
             }
