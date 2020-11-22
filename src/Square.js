@@ -15,6 +15,8 @@ function Square(props) {
   var color = 'green'
   const isMeter = props.isMeter ?? false;
   const intensityPercentage = props.intensityPercentage ?? 0;
+  const lat=props.lat;
+  const lon=props.lon;
 
   const r = parseInt((187 - 75) * intensityPercentage + 75);
   const g = parseInt((33 - 181) * intensityPercentage + 181);

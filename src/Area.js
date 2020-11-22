@@ -25,29 +25,7 @@ const getMockMatrix = (height, width) => {
   return intensityMatrix;
 }
 
-const getMockMatrix2 = (
-  topLeftLat,
-  topLeftLon,
-  bottomRightLat,
-  bottomRightLon,
-  bottomLeftLat,
-  bottomLeftLon,
-  topRightLat,
-  topRightLon,
-  baseLength
-) => {
-  const { latMatrix, lonMatrix } = getLatLonValues(
-    topLeftLat,
-    topLeftLon,
-    bottomRightLat,
-    bottomRightLon,
-    bottomLeftLat,
-    bottomLeftLon,
-    topRightLat,
-    topRightLon,
-    baseLength
-  )
-
+const getMockMatrix2 = (latMatrix, lonMatrix) => {
   const sensorLat = -23.588826342902333, sensorLon = -46.682215230240686
   const sensorValue = 100
   function getExpectedValue (pointLat, pointLon) {
@@ -99,7 +77,7 @@ function Area(props) { // assumption: the area is an rectangle
     intensityMatrix = getMockMatrix(lenOfHeight + (2 * baseLength), lenOfWidth + (2 * baseLength));
   }
 
-  let intensityMatrix2 = getMockMatrix2 (
+  const { latMatrix, lonMatrix } = getLatLonValues(
     topLeftLat,
     topLeftLon,
     bottomRightLat,
@@ -109,24 +87,26 @@ function Area(props) { // assumption: the area is an rectangle
     topRightLat,
     topRightLon,
     baseLength
-  ) 
+  )
+
+  let intensityMatrix2 = getMockMatrix2 (latMatrix, lonMatrix) 
   intensityMatrix = intensityMatrix2
 
   return (
     <div style={{ display: "flex" }}>
       <div>
         {
-          [<Region intensityMatrix={intensityMatrix} height={baseLength} width={baseLength} startRow={0} startColumn={0} />, <Region intensityMatrix={intensityMatrix} height={baseLength} width={lenOfWidth} startRow={0} startColumn={0} startRow={0} startColumn={baseLength} />, <Region intensityMatrix={intensityMatrix} height={baseLength} width={baseLength} startRow={0} startColumn={baseLength + lenOfWidth} />]
+          [<Region intensityMatrix={intensityMatrix} latMatrix={latMatrix} lonMatrix={lonMatrix} height={baseLength} width={baseLength} startRow={0} startColumn={0} />, <Region intensityMatrix={intensityMatrix} latMatrix={latMatrix} lonMatrix={lonMatrix} height={baseLength} width={lenOfWidth} startRow={0} startColumn={0} startRow={0} startColumn={baseLength} />, <Region intensityMatrix={intensityMatrix} latMatrix={latMatrix} lonMatrix={lonMatrix} height={baseLength} width={baseLength} startRow={0} startColumn={baseLength + lenOfWidth} />]
         }
       </div>
       <div>
         {
-          [<Region intensityMatrix={intensityMatrix} height={lenOfHeight} width={baseLength} startRow={baseLength} startColumn={0} />, <Region intensityMatrix={intensityMatrix} main={true} height={lenOfHeight} width={lenOfWidth} startRow={baseLength} startColumn={baseLength} />, <Region intensityMatrix={intensityMatrix} height={lenOfHeight} width={baseLength} startRow={baseLength} startColumn={baseLength + lenOfWidth} />]
+          [<Region intensityMatrix={intensityMatrix} latMatrix={latMatrix} lonMatrix={lonMatrix} height={lenOfHeight} width={baseLength} startRow={baseLength} startColumn={0} />, <Region intensityMatrix={intensityMatrix} latMatrix={latMatrix} lonMatrix={lonMatrix} main={true} height={lenOfHeight} width={lenOfWidth} startRow={baseLength} startColumn={baseLength} />, <Region intensityMatrix={intensityMatrix} latMatrix={latMatrix} lonMatrix={lonMatrix} height={lenOfHeight} width={baseLength} startRow={baseLength} startColumn={baseLength + lenOfWidth} />]
         }
       </div>
       <div>
         {
-          [<Region intensityMatrix={intensityMatrix} height={baseLength} width={baseLength} startRow={baseLength + lenOfHeight} startColumn={0} />, <Region intensityMatrix={intensityMatrix} height={baseLength} width={lenOfWidth} startRow={baseLength + lenOfHeight} startColumn={baseLength} />, <Region intensityMatrix={intensityMatrix} height={baseLength} width={baseLength} startRow={baseLength + lenOfHeight} startColumn={baseLength + lenOfWidth} />]
+          [<Region intensityMatrix={intensityMatrix} latMatrix={latMatrix} lonMatrix={lonMatrix} height={baseLength} width={baseLength} startRow={baseLength + lenOfHeight} startColumn={0} />, <Region intensityMatrix={intensityMatrix} latMatrix={latMatrix} lonMatrix={lonMatrix} height={baseLength} width={lenOfWidth} startRow={baseLength + lenOfHeight} startColumn={baseLength} />, <Region intensityMatrix={intensityMatrix} latMatrix={latMatrix} lonMatrix={lonMatrix} height={baseLength} width={baseLength} startRow={baseLength + lenOfHeight} startColumn={baseLength + lenOfWidth} />]
         }
       </div>
     </div>
