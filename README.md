@@ -48,7 +48,7 @@ API response example:
 }
 ```
 
-#### GET /estimatedNoiseValues
+#### GET /sensorPositions
 
 ```localhost:5000/sensorPositions```
 
@@ -60,4 +60,4 @@ API response example:
 }
 ```
 
-## We are monitoring the following area, please add monitor inside it.
+## We are monitoring the following area, please add sensors inside this area.
