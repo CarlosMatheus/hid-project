@@ -1,5 +1,7 @@
 # HID Project
 
+![project](https://media.giphy.com/media/VRfjOrCnmWO2oj6dQR/giphy.gif)
+
 ## Backend requirements
 
 #### GET /estimatedNoiseValues
