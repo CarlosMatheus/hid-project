@@ -45,8 +45,8 @@ function App() {
   const minDb = 70;
   const maxDb = 120;
 
-  // const [sensors, setSensors] = useState(false)
   const [intensityMatrix, setIntensityMatrix] = useState(get1SensorMockMatrix(latMatrix, lonMatrix))
+  const [displayIntensityMatrix, setDisplayIntensityMatrix] = useState(get1SensorMockMatrix(latMatrix, lonMatrix))
   const [intensityMatrixSensors, setIntensityMatrixSensors] = useState(getMockSensors(latMatrix, lonMatrix))
 
   useEffect(() => {
@@ -102,31 +102,31 @@ function App() {
               <Nav.Item>
                 <Nav.Link href="#1" onClick={() => {
                   // setSensors(false);
-                  setIntensityMatrix(intensityMatrix)
+                  setDisplayIntensityMatrix(intensityMatrix)
                 }}>Detection</Nav.Link>
               </Nav.Item>
               <Nav.Item>
                 <Nav.Link href="#2" onClick={() => {
                   // setSensors(false);
-                  setIntensityMatrix(intensityMatrixSensors)
+                  setDisplayIntensityMatrix(intensityMatrixSensors)
                 }}>Sensors</Nav.Link>
               </Nav.Item>
               <Nav.Item>
                 <Nav.Link href="#3" onClick={() => {
                   // setSensors(false);
-                  setIntensityMatrix(get1SensorMockMatrix(latMatrix, lonMatrix))
+                  setDisplayIntensityMatrix(get1SensorMockMatrix(latMatrix, lonMatrix))
                 }}>Detection Example - 1 Sensor</Nav.Link>
               </Nav.Item>
               <Nav.Item>
                 <Nav.Link href="#5" onClick={() => {
                   // setSensors(true);
-                  setIntensityMatrix(getMockSensors(latMatrix, lonMatrix))
+                  setDisplayIntensityMatrix(getMockSensors(latMatrix, lonMatrix))
                 }}>Sensors Example -  1 Sensor</Nav.Link>
               </Nav.Item>
               <Nav.Item>
                 <Nav.Link href="#6" onClick={() => {
                   // setSensors(false);
-                  setIntensityMatrix(getPerlinMockMatrix(lenOfHeight + (2 * baseLength), lenOfWidth + (2 * baseLength)))
+                  setDisplayIntensityMatrix(getPerlinMockMatrix(lenOfHeight + (2 * baseLength), lenOfWidth + (2 * baseLength)))
                 }}>Detection Example - Perlin Distribution</Nav.Link>
               </Nav.Item>
             </Nav>
@@ -152,7 +152,7 @@ function App() {
                 baseLength={baseLength}
                 latMatrix={latMatrix}
                 lonMatrix={lonMatrix}
-                intensityMatrix={intensityMatrix}
+                intensityMatrix={displayIntensityMatrix}
                 setSelectedSquare={setSelectedSquare}
               />
             </Card.Text>
