@@ -5,9 +5,7 @@ import logo from './logo.svg';
 
 function App() {
 
-  var perlin = require('perlin-noise');
- 
-  const intensityMatrix = perlin.generatePerlinNoise(100, 100);
+  const intensityMatrix = null;
 
   return (
     <Area
