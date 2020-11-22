@@ -26,6 +26,7 @@ function Square(props) {
 
   return (
     <div 
+        key={`${Math.random()}`}
         style={{height: 5, width: 5, backgroundColor: rgbToHex(r,g,b), marginRight: 1, marginBottom: 1}}
         onMouseEnter={() => setSelectedSquare({lat, lon, intensityPercentage})}
         onMouseLeave={() => setSelectedSquare(null)}

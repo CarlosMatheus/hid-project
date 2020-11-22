@@ -86,12 +86,12 @@ function App() {
     <br />
     The intensity of the sound on each.
     </p>
-<p style={{display: 'flex', alignItems: 'center'}}>
+<div style={{display: 'flex', alignItems: 'center'}}>
 <Square intensityPercentage={0}/> <span style={{marginLeft: 2}}>{`${minDb}db`}</span>
-</p>
-<p style={{display: 'flex', alignItems: 'center'}}>
+</div>
+<div style={{display: 'flex', alignItems: 'center'}}>
 <Square intensityPercentage={1}/> <span style={{marginLeft: 2}}>{`${maxDb}db`}</span>
-</p>
+</div>
         <p>
         </p>
         <p>
@@ -132,7 +132,7 @@ function App() {
             </Nav>
           </Card.Header>
           <Card.Body>
-            <Card.Text>
+            {/* <Card.Text> */}
       {
         selectedSquare ? (
           <div>
@@ -155,7 +155,7 @@ function App() {
                 intensityMatrix={displayIntensityMatrix}
                 setSelectedSquare={setSelectedSquare}
               />
-            </Card.Text>
+            {/* </Card.Text> */}
           </Card.Body>
         </Card>
       </Container>

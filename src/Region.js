@@ -36,10 +36,10 @@ function Region(props) {
     }}>
       {
         matrix.map((row, rowIdx) => {
-          return <div style={{ display: "" }}>
+          return <div style={{ display: "" }} key={`${rowIdx}`}>
             {
               row.map((square, colIdx) => {
-                return <Square setSelectedSquare={props.setSelectedSquare} isMain={isMain} intensityPercentage={intensityMatrix[rowIdx + startRow][colIdx + startColumn]} lat={latMatrix[rowIdx + startRow][colIdx + startColumn]} lon={lonMatrix[rowIdx + startRow][colIdx + startColumn]} />
+                return <Square key={`${rowIdx} ${colIdx}`} setSelectedSquare={props.setSelectedSquare} isMain={isMain} intensityPercentage={intensityMatrix[rowIdx + startRow][colIdx + startColumn]} lat={latMatrix[rowIdx + startRow][colIdx + startColumn]} lon={lonMatrix[rowIdx + startRow][colIdx + startColumn]} />
                 // return <Square isMain={isMain} intensityPercentage={intensityMatrix[rowIdx][colIdx]}/>
               })
             }

@@ -40,7 +40,7 @@ export const fetchEstimatedValues = async (latMatrix, lonMatrix) => {
     const data = {
         latMatrix, lonMatrix
     }
-    return await fetch("localhost:5000/estimatedNoiseValues",
+    return await fetch("http://localhost:5000/estimatedNoiseValues",
         {
             body: JSON.stringify(data)
         })
@@ -63,7 +63,7 @@ Expected response:
 }
 */
 export const fetchSensorsPosition = async () => {
-    return await fetch("localhost:5000/sensorPositions")
+    return await fetch("http://localhost:5000/sensorPositions")
         .then(res => res.json())
         .then(res => {
             console.log(res)
