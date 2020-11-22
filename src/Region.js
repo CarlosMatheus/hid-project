@@ -18,7 +18,12 @@ function Region(props) {
     const startRow = props.startRow;
     const startColumn = props.startColumn;
 
+    const intensityMatrix=props.intensityMatrix;
+    // console.log(intensityMatrix);
+    // console.log(intensityMatrix[0]);
+
   return (
+    //   <div />
     <div style={{
         display: "flex",
         backgroundColor: backgroundColor,
@@ -27,10 +32,13 @@ function Region(props) {
         // borderColor: borderColor,
         }}>
       {
-        matrix.map(row => {
+        matrix.map( (row, rowIdx) => {
         return <div style={{display: ""}}>
             {
-            row
+                row.map( (square, colIdx) => {
+                    return <Square isMain={isMain} intensityPercentage={intensityMatrix[rowIdx + startRow][colIdx + startColumn]}/>
+                    // return <Square isMain={isMain} intensityPercentage={intensityMatrix[rowIdx][colIdx]}/>
+                })
             }
         </div>
         })
