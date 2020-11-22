@@ -28,7 +28,7 @@ function getLatLonValues(
 ) {
     const cathetusTop = getDistance(topLeftLat, topLeftLon, topRightLat, topRightLon);
     const cathetusRight = getDistance(topRightLat, topRightLon, bottomRightLat, bottomRightLon);
-  
+
     const lenOfHeight = parseInt(cathetusRight);
     const lenOfWidth = parseInt(cathetusTop);
 
@@ -67,7 +67,47 @@ function getLatLonValues(
     }
 }
 
+const getParams = (
+    topLeftLat,
+    topLeftLon,
+    bottomRightLat,
+    bottomRightLon,
+    bottomLeftLat,
+    bottomLeftLon,
+    topRightLat,
+    topRightLon,
+    baseLength
+) => {
+    const cathetusTop = getDistance(topLeftLat, topLeftLon, topRightLat, topRightLon)
+    const cathetusRight = getDistance(topRightLat, topRightLon, bottomRightLat, bottomRightLon)
+
+    const lenOfHeight = parseInt(cathetusRight);
+    const lenOfWidth = parseInt(cathetusTop);
+
+    const { latMatrix, lonMatrix } = getLatLonValues(
+        topLeftLat,
+        topLeftLon,
+        bottomRightLat,
+        bottomRightLon,
+        bottomLeftLat,
+        bottomLeftLon,
+        topRightLat,
+        topRightLon,
+        baseLength
+    )
+
+    return {
+        lenOfHeight,
+        lenOfWidth,
+        baseLength,
+        latMatrix,
+        lonMatrix
+    }
+}
+
+
 export {
     getLatLonValues,
-    getDistance
+    getDistance,
+    getParams
 }
