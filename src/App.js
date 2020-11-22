@@ -5,15 +5,13 @@ import './App.css';
 import { useState } from 'react';
 import { Button, Card, Container, Jumbotron, Nav, Navbar, Tab, Tabs } from 'react-bootstrap';
 
-import { getParams } from './Api';
-import { getMockMatrix, getMockMatrix2 } from './ApiMock';
+import { get1SensorMockMatrix, getMockSensors, getPerlinMockMatrix } from './ApiMock';
 import Area from './Area';
+import { getDistance, getLatLonValues } from './CoordinateUtils';
 import Square from './Square';
 
 function App() {
-  const [sensors, setSensors] = useState(false)
   const [selectedSquare, setSelectedSquare] = useState(null);
-  const intensityMatrix = null
 
   const topLeftLat = -23.588826342902333
   const topLeftLon = -46.682215230240686
@@ -23,14 +21,15 @@ function App() {
   const bottomRightLon = -46.68294486601919
   const bottomLeftLat = -23.58908832749717
   const bottomLeftLon = -46.68320100836799
-
   const baseLength = 30
-  const {
-    lenOfHeight,
-    lenOfWidth,
-    latMatrix,
-    lonMatrix
-  } = getParams(
+
+  const cathetusTop = getDistance(topLeftLat, topLeftLon, topRightLat, topRightLon)
+  const cathetusRight = getDistance(topRightLat, topRightLon, bottomRightLat, bottomRightLon)
+
+  const lenOfHeight = parseInt(cathetusRight)
+  const lenOfWidth = parseInt(cathetusTop)
+
+  const { latMatrix, lonMatrix } = getLatLonValues(
     topLeftLat,
     topLeftLon,
     bottomRightLat,
@@ -42,8 +41,8 @@ function App() {
     baseLength
   )
 
-  const intensityMatrixMockPerlin = getMockMatrix(lenOfHeight + (2 * baseLength), lenOfWidth + (2 * baseLength))
-  const intensityMatrixMock1Sensor = getMockMatrix2(latMatrix, lonMatrix)
+  const [sensors, setSensors] = useState(false)
+  const [intensityMatrix, setIntensityMatrix] = useState(get1SensorMockMatrix(latMatrix, lonMatrix))
 
   const minDb = 70;
   const maxDb = 120;
@@ -73,12 +72,36 @@ function App() {
         </p>
         <Card>
           <Card.Header>
-            <Nav variant="tabs" defaultActiveKey="#first">
+            <Nav variant="tabs" defaultActiveKey="#1">
               <Nav.Item>
-                <Nav.Link href="#first" onClick={() => setSensors(false)}>Detection</Nav.Link>
+                <Nav.Link href="#1" onClick={() => {
+                  setSensors(false);
+                  setIntensityMatrix(get1SensorMockMatrix(latMatrix, lonMatrix))
+                }}>Detection</Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link href="#link" onClick={() => setSensors(true)}>Sensors</Nav.Link>
+                <Nav.Link href="#2" onClick={() => {
+                  setSensors(false);
+                  setIntensityMatrix(get1SensorMockMatrix(latMatrix, lonMatrix))
+                }}>Sensors</Nav.Link>
+              </Nav.Item>
+              <Nav.Item>
+                <Nav.Link href="#3" onClick={() => {
+                  setSensors(false);
+                  setIntensityMatrix(get1SensorMockMatrix(latMatrix, lonMatrix))
+                }}>Detection Example - 1 Sensor</Nav.Link>
+              </Nav.Item>
+              <Nav.Item>
+                <Nav.Link href="#5" onClick={() => {
+                  setSensors(true);
+                  setIntensityMatrix(getMockSensors(latMatrix, lonMatrix))
+                }}>Sensors Example -  1 Sensor</Nav.Link>
+              </Nav.Item>
+              <Nav.Item>
+                <Nav.Link href="#6" onClick={() => {
+                  setSensors(false);
+                  setIntensityMatrix(getPerlinMockMatrix(lenOfHeight + (2 * baseLength), lenOfWidth + (2 * baseLength)))
+                }}>Detection Example - Perlin Distribution</Nav.Link>
               </Nav.Item>
             </Nav>
           </Card.Header>
@@ -103,7 +126,7 @@ function App() {
                 baseLength={baseLength}
                 latMatrix={latMatrix}
                 lonMatrix={lonMatrix}
-                intensityMatrix={intensityMatrixMock1Sensor}
+                intensityMatrix={intensityMatrix}
                 sensors={sensors}
                 setSelectedSquare={setSelectedSquare}
               />
