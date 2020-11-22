@@ -48,14 +48,24 @@ const getMockMatrix2 = (
     baseLength
   )
 
+  const sensorLat = -23.588826342902333, sensorLon = -46.682215230240686
+  const sensorValue = 100
+  function getExpectedValue (pointLat, pointLon) {
+    const d = getDistance(sensorLat, sensorLon, pointLat, pointLon)
+    const value = sensorValue * Math.exp(-d/100) / 120
+    return value
+  }
+
   let intensityMatrix = []
-  latMatrix.forEach((row) => {
+  for(let i=0;i<latMatrix.length;i++){
     let intensityArray = []
-    row.forEach((element)=>{
-      intensityArray.push(0.3)
-    })
+    for(let j=0;j<lonMatrix.length;j++){
+      const noiseValue = getExpectedValue(latMatrix[i][j], lonMatrix[i][j])
+      intensityArray.push(noiseValue)
+    }
     intensityMatrix.push(intensityArray)
-  })
+  }
+  console.log(intensityMatrix)
 
   return intensityMatrix
 }
@@ -100,7 +110,7 @@ function Area(props) { // assumption: the area is an rectangle
     topRightLon,
     baseLength
   ) 
-  // intensityMatrix = intensityMatrix2
+  intensityMatrix = intensityMatrix2
 
   return (
     <div style={{ display: "flex" }}>
