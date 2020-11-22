@@ -1,6 +1,22 @@
 # HID Project
 
-![project](https://media.giphy.com/media/VRfjOrCnmWO2oj6dQR/giphy.gif)
+## Project
+
+![project](public/page.gif)
+
+### We are monitoring the following area, please add sensors inside this area
+
+![image](public/construction_site.png)
+
+You can find the exact location on [Google Maps](https://www.google.com/maps/@-23.5895672,-46.6825731,608a,35y,90h/data=!3m1!1e3).
+
+The coordnates are: (-23.589400041446943, -46.68245668536507).
+
+### Running locally
+
+```
+npm start
+```
 
 ## Backend requirements
 
@@ -62,4 +78,3 @@ API response example:
 }
 ```
 
-## We are monitoring the following area, please add sensors inside this area.
