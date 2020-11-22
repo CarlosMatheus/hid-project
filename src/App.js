@@ -2,12 +2,13 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import './App.css';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Card, Container, Jumbotron, Nav, Navbar, Tab, Tabs } from 'react-bootstrap';
 
+import { fetchEstimatedValues, fetchSensorsPosition } from './Api';
 import { get1SensorMockMatrix, getMockSensors, getPerlinMockMatrix } from './ApiMock';
 import Area from './Area';
-import { getDistance, getLatLonValues } from './CoordinateUtils';
+import { getDistance, getLatLonValues, getSensors } from './CoordinateUtils';
 import Square from './Square';
 
 function App() {
@@ -41,11 +42,36 @@ function App() {
     baseLength
   )
 
-  const [sensors, setSensors] = useState(false)
-  const [intensityMatrix, setIntensityMatrix] = useState(get1SensorMockMatrix(latMatrix, lonMatrix))
-
   const minDb = 70;
   const maxDb = 120;
+
+  // const [sensors, setSensors] = useState(false)
+  const [intensityMatrix, setIntensityMatrix] = useState(get1SensorMockMatrix(latMatrix, lonMatrix))
+  const [intensityMatrixSensors, setIntensityMatrixSensors] = useState(getMockSensors(latMatrix, lonMatrix))
+
+  useEffect(() => {
+    fetchEstimatedValues().then((res) => {
+      const intensityM = res.data.map(row => {
+        return row.map(element => {
+          let value = (element - minDb);
+          value = value >= 0 ? value : 0;
+          value = value <= (maxDb - minDb) ? value : (maxDb - minDb);
+          return (maxDb - minDb) / value;
+        })
+      })
+      setIntensityMatrix(intensityM);
+    }).catch((error) => {
+      console.error(`Error while trying to fetch estimated values: ${error}`);
+    })
+
+    fetchSensorsPosition().then((res) => {
+      const intensityM = getSensors(latMatrix, lonMatrix, res.data.sensorsLatList, res.data.sensorLonList);
+      setIntensityMatrixSensors(intensityM);
+    }).catch((error) => {
+      console.error(`Error while trying to fetch sensors: ${error}`);
+    })
+
+  }, []);
 
   return (
     <>
@@ -75,31 +101,31 @@ function App() {
             <Nav variant="tabs" defaultActiveKey="#1">
               <Nav.Item>
                 <Nav.Link href="#1" onClick={() => {
-                  setSensors(false);
-                  setIntensityMatrix(get1SensorMockMatrix(latMatrix, lonMatrix))
+                  // setSensors(false);
+                  setIntensityMatrix(intensityMatrix)
                 }}>Detection</Nav.Link>
               </Nav.Item>
               <Nav.Item>
                 <Nav.Link href="#2" onClick={() => {
-                  setSensors(false);
-                  setIntensityMatrix(get1SensorMockMatrix(latMatrix, lonMatrix))
+                  // setSensors(false);
+                  setIntensityMatrix(intensityMatrixSensors)
                 }}>Sensors</Nav.Link>
               </Nav.Item>
               <Nav.Item>
                 <Nav.Link href="#3" onClick={() => {
-                  setSensors(false);
+                  // setSensors(false);
                   setIntensityMatrix(get1SensorMockMatrix(latMatrix, lonMatrix))
                 }}>Detection Example - 1 Sensor</Nav.Link>
               </Nav.Item>
               <Nav.Item>
                 <Nav.Link href="#5" onClick={() => {
-                  setSensors(true);
+                  // setSensors(true);
                   setIntensityMatrix(getMockSensors(latMatrix, lonMatrix))
                 }}>Sensors Example -  1 Sensor</Nav.Link>
               </Nav.Item>
               <Nav.Item>
                 <Nav.Link href="#6" onClick={() => {
-                  setSensors(false);
+                  // setSensors(false);
                   setIntensityMatrix(getPerlinMockMatrix(lenOfHeight + (2 * baseLength), lenOfWidth + (2 * baseLength)))
                 }}>Detection Example - Perlin Distribution</Nav.Link>
               </Nav.Item>
@@ -127,7 +153,6 @@ function App() {
                 latMatrix={latMatrix}
                 lonMatrix={lonMatrix}
                 intensityMatrix={intensityMatrix}
-                sensors={sensors}
                 setSelectedSquare={setSelectedSquare}
               />
             </Card.Text>

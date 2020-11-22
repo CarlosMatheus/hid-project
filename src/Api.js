@@ -36,7 +36,7 @@ Expected response body:
     ]
 }
 */
-const fetchEstimatedValues = async (latMatrix, lonMatrix) => {
+export const fetchEstimatedValues = async (latMatrix, lonMatrix) => {
     const data = {
         latMatrix, lonMatrix
     }
@@ -62,7 +62,7 @@ Expected response:
     sensorLonList: [-46.682215230240686]
 }
 */
-const fetchSensorsPosition = async () => {
+export const fetchSensorsPosition = async () => {
     return await fetch("localhost:5000/sensorPositions")
         .then(res => res.json())
         .then(res => {
