@@ -19,8 +19,6 @@ function Region(props) {
     const startColumn = props.startColumn;
 
     const intensityMatrix=props.intensityMatrix;
-    // console.log(intensityMatrix);
-    // console.log(intensityMatrix[0]);
 
   return (
     //   <div />
@@ -37,7 +35,6 @@ function Region(props) {
             {
                 row.map( (square, colIdx) => {
                     return <Square isMain={isMain} intensityPercentage={intensityMatrix[rowIdx + startRow][colIdx + startColumn]}/>
-                    // return <Square isMain={isMain} intensityPercentage={intensityMatrix[rowIdx][colIdx]}/>
                 })
             }
         </div>

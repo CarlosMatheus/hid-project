@@ -21,15 +21,10 @@ const getMockMatrix = (height, width) => {
   const intensityMatrix = Array(height).fill(Array(width).fill(0))
 
   intensityMatrix.forEach((row, rowIdx)=>{
-    // console.log(rowIdx);
     row.forEach((element, colIdx)=>{
-    // console.log(colIdx);
-      // console.log(matrix[(rowIdx * width) + colIdx]);
         intensityMatrix[rowIdx][colIdx] = matrix[(rowIdx * width) + colIdx];
     })
   })
-
-  // console.log(intensityMatrix);
 
   return intensityMatrix;
 }
@@ -61,9 +56,6 @@ function Area(props) { // assumption: the area is an rectangle
   if (!props.intensityMatrix) {
       intensityMatrix = getMockMatrix(lenOfHeight + (2 * baseLength), lenOfWidth + (2 * baseLength));
   }
-
-  // console.log(lenOfHeight);
-  // console.log(lenOfWidth);
 
   return (
     <div style={{display: "flex"}}>
