@@ -1,6 +1,6 @@
-import { getDistance } from './Api';
+import { getDistance, getSensors } from './CoordinateUtils';
 
-const getMockMatrix = (height, width) => {
+const getPerlinMockMatrix = (height, width) => {
     var perlin = require('perlin-noise');
   
     const matrix = perlin.generatePerlinNoise(height, width);
@@ -15,15 +15,15 @@ const getMockMatrix = (height, width) => {
     return intensityMatrix;
   }
   
-  const getMockMatrix2 = (latMatrix, lonMatrix) => {
+  const get1SensorMockMatrix = (latMatrix, lonMatrix) => {
     const sensorLat = -23.588826342902333, sensorLon = -46.682215230240686
     const sensorValue = 100
     function getExpectedValue (pointLat, pointLon) {
       const d = getDistance(sensorLat, sensorLon, pointLat, pointLon)
-      const value = sensorValue * Math.exp(-d/100) / 120
+      const value = sensorValue * Math.exp(-d/50) / 120
       return value
     }
-  
+
     let intensityMatrix = []
     for(let i=0;i<latMatrix.length;i++){
       let intensityArray = []
@@ -33,11 +33,18 @@ const getMockMatrix = (height, width) => {
       }
       intensityMatrix.push(intensityArray)
     }
-    
+
     return intensityMatrix
   }
 
-  export {
-      getMockMatrix,
-      getMockMatrix2
+  const getMockSensors =  (latMatrix, lonMatrix) => {
+    const sensorsLatList = [-23.588826342902333], sensorLonList = [-46.682215230240686]
+    return getSensors(latMatrix, lonMatrix, sensorsLatList, sensorLonList)
   }
+
+  export {
+      getPerlinMockMatrix,
+      get1SensorMockMatrix,
+      getMockSensors
+  }
+
