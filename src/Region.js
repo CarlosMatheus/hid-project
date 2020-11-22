@@ -22,6 +22,9 @@ function Region(props) {
   const latMatrix = props.latMatrix;
   const lonMatrix = props.lonMatrix;
 
+  // console.log(intensityMatrix);
+  // console.log(intensityMatrix[0]);
+
   return (
     //   <div />
     <div style={{
