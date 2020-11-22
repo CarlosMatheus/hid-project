@@ -4,12 +4,12 @@ import React, { useState } from 'react';
 
 import Region from './Region';
 
-const getDistance = (topLeftLat, topLeftLon, bottomRightLat, bottomRightLon) => {
+const getDistance = (pontALat, pointBLon, pointBLat, pointBLon) => {
   var R = 6371000; // Radius of the Earth in miles
-  var rlat1 = topLeftLat * (Math.PI/180); // Convert degrees to radians
-  var rlat2 = bottomRightLat * (Math.PI/180); // Convert degrees to radians
+  var rlat1 = pontALat * (Math.PI/180); // Convert degrees to radians
+  var rlat2 = pointBLat * (Math.PI/180); // Convert degrees to radians
   var difflat = rlat2-rlat1; // Radian difference (latitudes)
-  var difflon = (bottomRightLon-topLeftLon) * (Math.PI/180); // Radian difference (longitudes)
+  var difflon = (pointBLon-pointBLon) * (Math.PI/180); // Radian difference (longitudes)
 
   return 2 * R * Math.asin(Math.sqrt(Math.sin(difflat/2)*Math.sin(difflat/2)+Math.cos(rlat1)*Math.cos(rlat2)*Math.sin(difflon/2)*Math.sin(difflon/2)));
 }
@@ -41,6 +41,40 @@ function Area(props) { // assumption: the area is an rectangle
   // console.log(lenOfWidth);
 
   const baseLength = 30;
+
+  // 1.............2...........3
+  // or
+  // 1
+  // .
+  // .
+  // 2
+  // .
+  // .
+  // 3
+  function getThirdPoint({lat1, lon1, lat2, lon2, d12, d13}) {
+    return {
+      lat: (lat2-lat1)*d13/d12 + lat1,
+      lon: (lon2-lon1)*d13/d12 + lon1
+    }
+  }
+
+  // const lat1 = topLeftLat, lon1=topLeftLon, lat2=topRightLat, topRightLon
+  // const d12 = getDistance(lat1, lon1, lat2, lon2)
+
+  // for(let j=0;j<2*baseLength + lenOfWidth;j++){    
+  //   const {latLeft, lonLeft} = getThirdPoint({lat1, lon1, lat2, lon2, d12, d13})
+
+
+  //   const d13 = i - baseLength + lenOfWidth
+  //   const {lat, lon} = getThirdPoint({lat1, lon1, lat2, lon2, d12, d13})
+
+
+  // }
+
+  // for(let i=0;i<2*baseLength + lenOfWidth;i++){
+  //   const d13 = i - baseLength + lenOfWidth
+  //   const {lat, lon} = getThirdPoint({lat1, lon1, lat2, lon2, d12, d13})
+  // }
 
   return (
     <div style={{display: "flex"}}>
