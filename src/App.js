@@ -53,15 +53,18 @@ function App() {
     fetchEstimatedValues(latMatrix, lonMatrix).then((res) => {
       console.log('fetchEstimatedValues')
       console.log(res)
-      const intensityM = res.map(row => {
-        return row.map(element => {
-          let value = (element - minDb);
-          value = value >= 0 ? value : 0;
-          value = value <= (maxDb - minDb) ? value : (maxDb - minDb);
-          return (maxDb - minDb) / value;
-        })
-      })
-      setIntensityMatrix(intensityM);
+      setIntensityMatrix(res);
+
+      // const intensityM = res.map(row => {
+      //   return row.map(element => {
+      //     element = element * 120;
+      //     let value = (element - minDb);
+      //     value = value >= 0 ? value : 0;
+      //     value = value <= (maxDb - minDb) ? value : (maxDb - minDb);
+      //     return (maxDb - minDb) / value;
+      //   })
+      // })
+      // setIntensityMatrix(intensityM);
     }).catch((error) => {
       console.error(`Error while trying to fetch estimated values: ${error}`);
     })
