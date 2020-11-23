@@ -50,8 +50,10 @@ function App() {
   const [intensityMatrixSensors, setIntensityMatrixSensors] = useState(getMockSensors(latMatrix, lonMatrix))
 
   useEffect(() => {
-    fetchEstimatedValues().then((res) => {
-      const intensityM = res.data.map(row => {
+    fetchEstimatedValues(latMatrix, lonMatrix).then((res) => {
+      console.log('fetchEstimatedValues')
+      console.log(res)
+      const intensityM = res.map(row => {
         return row.map(element => {
           let value = (element - minDb);
           value = value >= 0 ? value : 0;
@@ -65,7 +67,9 @@ function App() {
     })
 
     fetchSensorsPosition().then((res) => {
-      const intensityM = getSensors(latMatrix, lonMatrix, res.data.sensorsLatList, res.data.sensorLonList);
+      console.log('fetchSensorsPosition')
+      console.log(res)
+      const intensityM = getSensors(latMatrix, lonMatrix, res.sensorsLatList, res.sensorLonList);
       setIntensityMatrixSensors(intensityM);
     }).catch((error) => {
       console.error(`Error while trying to fetch sensors: ${error}`);
@@ -86,12 +90,12 @@ function App() {
     <br />
     The intensity of the sound on each.
     </p>
-<div style={{display: 'flex', alignItems: 'center'}}>
-<Square intensityPercentage={0}/> <span style={{marginLeft: 2}}>{`${minDb}db`}</span>
-</div>
-<div style={{display: 'flex', alignItems: 'center'}}>
-<Square intensityPercentage={1}/> <span style={{marginLeft: 2}}>{`${maxDb}db`}</span>
-</div>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <Square intensityPercentage={0} /> <span style={{ marginLeft: 2 }}>{`${minDb}db`}</span>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <Square intensityPercentage={1} /> <span style={{ marginLeft: 2 }}>{`${maxDb}db`}</span>
+        </div>
         <p>
         </p>
         <p>
@@ -133,28 +137,28 @@ function App() {
           </Card.Header>
           <Card.Body>
             {/* <Card.Text> */}
-      {
-        selectedSquare ? (
-          <div>
-            <span style={{marginRight: 4}}>{`Latitude: ${selectedSquare.lat}`}</span>
-            <span style={{marginRight: 4}}>{`Longitude: ${selectedSquare.lon}`}</span>
-            <span style={{marginRight: 4}}>{`Intensity: ${(selectedSquare.intensityPercentage * (maxDb - minDb) + minDb)}db`}</span>
-          </div>
-        ) : (
-          <div>
-            <span>{'Navigate on the graph'}</span>
-          </div>
-        )
-      }
-              <Area
-                lenOfHeight={lenOfHeight}
-                lenOfWidth={lenOfWidth}
-                baseLength={baseLength}
-                latMatrix={latMatrix}
-                lonMatrix={lonMatrix}
-                intensityMatrix={displayIntensityMatrix}
-                setSelectedSquare={setSelectedSquare}
-              />
+            {
+              selectedSquare ? (
+                <div>
+                  <span style={{ marginRight: 4 }}>{`Latitude: ${selectedSquare.lat}`}</span>
+                  <span style={{ marginRight: 4 }}>{`Longitude: ${selectedSquare.lon}`}</span>
+                  <span style={{ marginRight: 4 }}>{`Intensity: ${(selectedSquare.intensityPercentage * (maxDb - minDb) + minDb)}db`}</span>
+                </div>
+              ) : (
+                  <div>
+                    <span>{'Navigate on the graph'}</span>
+                  </div>
+                )
+            }
+            <Area
+              lenOfHeight={lenOfHeight}
+              lenOfWidth={lenOfWidth}
+              baseLength={baseLength}
+              latMatrix={latMatrix}
+              lonMatrix={lonMatrix}
+              intensityMatrix={displayIntensityMatrix}
+              setSelectedSquare={setSelectedSquare}
+            />
             {/* </Card.Text> */}
           </Card.Body>
         </Card>

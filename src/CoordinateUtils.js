@@ -67,22 +67,22 @@ function getLatLonValues(
     }
 }
 
-const getSensors =  (latMatrix, lonMatrix, sensorsLatList, sensorsLonList) => {
+const getSensors = (latMatrix, lonMatrix, sensorsLatList, sensorsLonList) => {
     let intensityMatrix = []
-    for(let i=0;i<latMatrix.length;i++){
-      let intensityArray = []
-      for(let j=0;j<lonMatrix.length;j++){
-        let hasSensor = false;
-        for(let k=0;k<sensorsLatList.length;k++){
-            const d = getDistance(sensorsLatList[k], sensorsLonList[k], latMatrix[i][j], lonMatrix[i][j])
-            hasSensor = hasSensor || d < 2
+    for (let i = 0; i < latMatrix.length; i++) {
+        let intensityArray = []
+        for (let j = 0; j < lonMatrix.length; j++) {
+            let hasSensor = false;
+            for (let k = 0; k < sensorsLatList.length; k++) {
+                const d = getDistance(sensorsLatList[k], sensorsLonList[k], latMatrix[i][j], lonMatrix[i][j])
+                hasSensor = hasSensor || d < 1.5
+            }
+            intensityArray.push(hasSensor ? 1 : 0)
         }
-        intensityArray.push(hasSensor ? 1 : 0)
-      }
-      intensityMatrix.push(intensityArray)
+        intensityMatrix.push(intensityArray)
     }
     return intensityMatrix
-  }
+}
 
 export {
     getLatLonValues,

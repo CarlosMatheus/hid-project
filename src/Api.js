@@ -1,3 +1,6 @@
+import axios from 'axios';
+axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+
 /*
 Expected request body:
 {
@@ -37,16 +40,23 @@ Expected response body:
 }
 */
 export const fetchEstimatedValues = async (latMatrix, lonMatrix) => {
+    console.log('Dispatching fetchEstimatedValues')
     const data = {
         latMatrix, lonMatrix
     }
-    return await fetch("http://localhost:5000/estimatedNoiseValues",
-        {
-            body: JSON.stringify(data)
-        })
-        .then(res => res.json())
+    const proxy = "https://cors-anywhere.herokuapp.com/"
+    const url = "https://obra-silenciosa-back.herokuapp.com/estimatedNoiseValues"
+    return await axios.post(proxy + url, {
+        headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+            'Content-Type': 'application/json;charset=utf-8',
+        },
+        ...data
+    })
+        .then(res => res.data.noiseMatrix)
         .then(res => {
-            console.log(res)
+            // console.log(res)
             return res
         })
         .catch(err => {
@@ -63,10 +73,19 @@ Expected response:
 }
 */
 export const fetchSensorsPosition = async () => {
-    return await fetch("http://localhost:5000/sensorPositions")
-        .then(res => res.json())
+    console.log('Dispatching fetchSensorsPosition')
+    const proxy = "https://cors-anywhere.herokuapp.com/"
+    const url = "https://obra-silenciosa-back.herokuapp.com/sensorPositions"
+    return await axios.get(proxy + url, {
+        headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+            'Content-Type': 'application/json;charset=utf-8',
+        }
+    })
+        .then(res => res.data)
         .then(res => {
-            console.log(res)
+            // console.log(res)
             return res
         })
         .catch(err => {
